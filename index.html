@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dark Vice Style Hero</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body, html {
+    height: 200vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #0a0a0a;
+    color: #fff;
+    overflow-x: hidden;
+  }
+  
+  .hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-align: center;
+    perspective: 1500px;
+  }
+  
+  /* Animated background particles */
+  .particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0;
+  }
+  
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(233, 30, 99, 0.6);
+    border-radius: 50%;
+    animation: float linear infinite;
+  }
+  
+  @keyframes float {
+    0% {
+      transform: translateY(100vh) translateX(0) scale(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100vh) translateX(var(--drift)) scale(1);
+      opacity: 0;
+    }
+  }
+  
+  /* 3D rotating logo with enhanced effects */
+  .background-logo {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    max-width: 70vw;
+    opacity: 0.2;
+    transform-style: preserve-3d;
+    animation: rotate3d 20s ease-in-out infinite;
+    z-index: 1;
+    filter: drop-shadow(0 0 60px rgba(233, 30, 99, 0.6)) 
+            drop-shadow(0 0 100px rgba(156, 39, 176, 0.4));
+  }
+  
+  @keyframes rotate3d {
+    0%, 100% {
+      transform: translate(-50%, -50%) 
+                 rotateX(0deg) 
+                 rotateY(0deg) 
+                 rotateZ(0deg)
+                 scale(1);
+    }
+    25% {
+      transform: translate(-50%, -50%) 
+                 rotateX(15deg) 
+                 rotateY(15deg) 
+                 rotateZ(5deg)
+                 scale(1.1);
+    }
+    50% {
+      transform: translate(-50%, -50%) 
+                 rotateX(0deg) 
+                 rotateY(30deg) 
+                 rotateZ(0deg)
+                 scale(1.05);
+    }
+    75% {
+      transform: translate(-50%, -50%) 
+                 rotateX(-15deg) 
+                 rotateY(15deg) 
+                 rotateZ(-5deg)
+                 scale(1.1);
+    }
+  }
+  
+  /* Gradient overlay for depth */
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at center, transparent 0%, rgba(10, 10, 10, 0.6) 100%);
+    z-index: 1;
+  }
+  
+  /* Glowing orbs in background */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.3;
+    animation: orbFloat 15s ease-in-out infinite;
+    z-index: 0;
+  }
+  
+  .orb1 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, #e91e63, transparent);
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+  
+  .orb2 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, #9c27b0, transparent);
+    bottom: 10%;
+    right: 15%;
+    animation-delay: -5s;
+  }
+  
+  @keyframes orbFloat {
+    0%, 100% {
+      transform: translate(0, 0) scale(1);
+    }
+    33% {
+      transform: translate(50px, -50px) scale(1.2);
+    }
+    66% {
+      transform: translate(-30px, 30px) scale(0.9);
+    }
+  }
+  
+  /* Content container with 3D transform */
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    transform-style: preserve-3d;
+    animation: contentFloat 6s ease-in-out infinite;
+  }
+  
+  @keyframes contentFloat {
+    0%, 100% {
+      transform: translateZ(0px) translateY(0px);
+    }
+    50% {
+      transform: translateZ(30px) translateY(-10px);
+    }
+  }
+  
+  h1 {
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #fff 0%, #e91e63 50%, #9c27b0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  
+  p {
+    font-size: clamp(0.9rem, 2vw, 1.3rem);
+    letter-spacing: 0.15em;
+    margin-bottom: 2.5rem;
+    opacity: 0.9;
+    font-weight: 300;
+    text-transform: uppercase;
+    animation: fadeInOut 4s ease-in-out infinite;
+  }
+  
+  @keyframes fadeInOut {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+  
+  .btn {
+    background: linear-gradient(135deg, #e91e63 0%, #9c27b0 100%);
+    color: #fff;
+    padding: 1rem 3rem;
+    border: 2px solid transparent;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.4s ease;
+    box-shadow: 0 10px 40px rgba(233, 30, 99, 0.4),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    animation: buttonPulse 3s ease-in-out infinite;
+  }
+  
+  @keyframes buttonPulse {
+    0%, 100% {
+      transform: translateZ(0) scale(1);
+      box-shadow: 0 10px 40px rgba(233, 30, 99, 0.4),
+                  inset 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+    50% {
+      transform: translateZ(20px) scale(1.05);
+      box-shadow: 0 20px 60px rgba(233, 30, 99, 0.8),
+                  inset 0 0 30px rgba(255, 255, 255, 0.2);
+    }
+  }
+  
+  .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  .btn:hover {
+    transform: translateZ(30px) scale(1.1);
+    box-shadow: 0 20px 80px rgba(233, 30, 99, 0.8),
+                0 0 100px rgba(156, 39, 176, 0.6);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  .btn:hover::before {
+    left: 100%;
+  }
+  
+  .btn:active {
+    transform: translateZ(10px) scale(1.05);
+  }
+  
+  /* Animated grid background */
+  .grid-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-image: 
+      linear-gradient(rgba(233, 30, 99, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(233, 30, 99, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    transform: perspective(500px) rotateX(60deg) translateZ(-200px);
+    transform-origin: center bottom;
+    z-index: 0;
+    opacity: 0.3;
+    animation: gridMove 20s linear infinite;
+  }
+  
+  @keyframes gridMove {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 50px 50px;
+    }
+  }
+  
+  /* Scroll indicator */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    animation: bounce 2s infinite;
+  }
+  
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+    40% { transform: translateX(-50%) translateY(-10px); }
+    60% { transform: translateX(-50%) translateY(-5px); }
+  }
+  
+  .scroll-indicator::after {
+    content: '↓';
+    font-size: 2rem;
+    opacity: 0.5;
+    filter: drop-shadow(0 0 10px rgba(233, 30, 99, 0.8));
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .btn {
+      padding: 0.875rem 2.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .orb {
+      filter: blur(50px);
+    }
+  }
+</style>
+</head>
+<body>
+<div class="hero">
+  <!-- Animated grid background -->
+  <div class="grid-background"></div>
+  
+  <!-- Particles -->
+  <div class="particles" id="particles"></div>
+  
+  <!-- Glowing orbs -->
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  
+  <!-- 3D rotating logo -->
+  <img src="logo.png" class="background-logo" alt="Logo">
+  
+  <!-- Foreground content -->
+  <div class="hero-content">
+    <h1>DARK VICE</h1>
+    <p>Congratulations, You Are Lost</p>
+    <button class="btn">Listen Now</button>
+  </div>
+  
+  <div class="scroll-indicator"></div>
+</div>
+
+<script>
+  // Create floating particles
+  const particlesContainer = document.getElementById('particles');
+  for (let i = 0; i < 50; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDuration = (Math.random() * 10 + 5) + 's';
+    particle.style.animationDelay = Math.random() * 5 + 's';
+    particle.style.setProperty('--drift', (Math.random() * 200 - 100) + 'px');
+    particlesContainer.appendChild(particle);
+  }
+  
+  // Enhanced 3D parallax on mouse move
+  const hero = document.querySelector('.hero');
+  const logo = document.querySelector('.background-logo');
+  const content = document.querySelector('.hero-content');
+  
+  hero.addEventListener('mousemove', (e) => {
+    const { clientX, clientY } = e;
+    const { innerWidth, innerHeight } = window;
+    
+    const xPercent = (clientX / innerWidth - 0.5) * 30;
+    const yPercent = (clientY / innerHeight - 0.5) * 30;
+    
+    // Logo follows cursor with 3D rotation
+    logo.style.transform = `
+      translate(-50%, -50%) 
+      rotateY(${xPercent}deg) 
+      rotateX(${-yPercent}deg)
+    `;
+    
+    // Content subtle parallax
+    content.style.transform = `
+      translateX(${xPercent * 0.3}px) 
+      translateY(${yPercent * 0.3}px)
+      rotateY(${xPercent * 0.5}deg)
+      rotateX(${-yPercent * 0.5}deg)
+    `;
+  });
+  
+  // Reset on mouse leave
+  hero.addEventListener('mouseleave', () => {
+    logo.style.transition = 'transform 1s ease';
+    content.style.transition = 'transform 1s ease';
+    logo.style.transform = 'translate(-50%, -50%) rotateY(0deg) rotateX(0deg)';
+    content.style.transform = 'translateX(0) translateY(0) rotateY(0deg) rotateX(0deg)';
+    
+    setTimeout(() => {
+      logo.style.transition = '';
+      content.style.transition = '';
+    }, 1000);
+  });
+  
+  // Button ripple effect
+  const btn = document.querySelector('.btn');
+  btn.addEventListener('click', function(e) {
+    const ripple = document.createElement('span');
+    const rect = this.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = e.clientX - rect.left - size / 2;
+    const y = e.clientY - rect.top - size / 2;
+    
+    ripple.style.cssText = `
+      position: absolute;
+      width: ${size}px;
+      height: ${size}px;
+      left: ${x}px;
+      top: ${y}px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      transform: scale(0);
+      animation: ripple 0.6s ease-out;
+      pointer-events: none;
+    `;
+    
+    this.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+  });
+  
+  //
