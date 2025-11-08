@@ -42,6 +42,15 @@
     object-fit: cover;
   }
   
+  /* Ensure video covers full screen on mobile */
+  @media (max-width: 768px) {
+    .video-background video {
+      width: 100%;
+      height: 100vh;
+      object-fit: cover;
+    }
+  }
+  
   /* Dark overlay on video */
   .video-overlay {
     position: fixed;
@@ -190,12 +199,23 @@
     font-size: 2rem;
     opacity: 0.5;
   }
-  
+  .video-background{
+    display: block;
+  }
+  .background-logo{
+    display: none;
+  }
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .btn {
       padding: 0.875rem 2.5rem;
       font-size: 0.9rem;
+    }
+    .video-background{
+        display: none;
+    }
+    .background-logo{
+      display: block;
     }
   }
 </style>
@@ -203,15 +223,18 @@
 <body>
 <!-- Video Background -->
 <div class="video-background">
-  <video autoplay muted loop playsinline>
-    <source src="background-video.mp4" type="video/mp4">
+  <video autoplay muted loop playsinline id="bgVideo">
+    <!-- Mobile devices will load the smaller video -->
+    <!-- <source src="background-video-mobile.mp4" type="video/mp4" media="(max-width: 768px)"> -->
+    <!-- Desktop devices will load the full quality video -->
+    <source src="background-video-desktop.mp4" type="video/mp4">
   </video>
 </div>
 <div class="video-overlay"></div>
 
 <div class="hero">
   <!-- Fixed animated logo -->
-  <!-- <img src="logo.png" class="background-logo" alt="Logo"> -->
+  <img src="logo.gif" class="background-logo" alt="Logo">
   
   <!-- Foreground content - NO ANIMATIONS -->
   <div class="hero-content">
@@ -224,6 +247,13 @@
 </div>
 
 <script>
+  // Load appropriate video based on screen size
+  const video = document.getElementById('bgVideo');
+  const isMobile = window.innerWidth <= 768;
+  
+  // Set the appropriate video source
+  video.src = isMobile ? 'background-video-mobile.mp4' : 'background-video-desktop.mp4';
+  
   // Parallax effect on mouse move - LOGO ONLY
   const hero = document.querySelector('.hero');
   const logo = document.querySelector('.background-logo');
